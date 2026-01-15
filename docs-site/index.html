@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>map-routing - Interactive Route Visualization for React</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">map-routing</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Getting Started</a></li>
+        <li><a href="api.html">API Reference</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="examples.html">Examples</a></li>
+        <li><a href="route-creator.html">Route Creator</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <h1>map-routing</h1>
+      <p class="tagline">Interactive route visualization with pan/zoom and video synchronization for React</p>
+      <div class="cta-buttons">
+        <a href="#installation" class="btn btn-primary">Get Started</a>
+        <a href="api.html" class="btn btn-secondary">API Reference</a>
+      </div>
+    </section>
+
+    <section id="installation">
+      <h2>Installation</h2>
+      <p>Install the package using npm or yarn:</p>
+
+      <pre><code class="language-bash">npm install map-routing</code></pre>
+
+      <p>Or with yarn:</p>
+
+      <pre><code class="language-bash">yarn add map-routing</code></pre>
+
+      <h3>Peer Dependencies</h3>
+      <p>Make sure you have the required peer dependencies installed:</p>
+
+      <pre><code class="language-bash">npm install react react-dom styled-components</code></pre>
+
+      <div class="note">
+        <p><strong>Note:</strong> This package supports React 18.x and 19.x.</p>
+      </div>
+    </section>
+
+    <section id="quick-start">
+      <h2>Quick Start</h2>
+
+      <h3>Basic Usage</h3>
+      <p>Here's a simple example of displaying a route on a map image:</p>
+
+      <pre><code class="language-jsx">import { ImageRoute } from 'map-routing';
+
+function App() {
+  const route = [
+    { x: 0.2, y: 0.3, marked: 0 },    // Start point at t=0s
+    { x: 0.5, y: 0.4, start: 0, end: 10 },  // Segment from 0-10s
+    { x: 0.7, y: 0.6, start: 10, end: 20 }, // Segment from 10-20s
+    { x: 0.8, y: 0.8, marked: 20 }    // End point at t=20s
+  ];
+
+  return (
+    &lt;ImageRoute
+      src="/path/to/map.jpg"
+      route={route}
+      style={{ width: '100%', height: '600px' }}
+    /&gt;
+  );
+}</code></pre>
+
+      <h3>With Video Synchronization</h3>
+      <p>Synchronize the route visualization with a video player:</p>
+
+      <pre><code class="language-jsx">import { ImageRoute, useRouteVideoSync } from 'map-routing';
+import { useRef, useState } from 'react';
+
+function VideoMapSync() {
+  const videoRef = useRef(null);
+  const [currentTime, setCurrentTime] = useState(0);
+
+  const route = [
+    { x: 0.2, y: 0.3, marked: 0 },
+    { x: 0.5, y: 0.4, start: 0, end: 10 },
+    { x: 0.7, y: 0.6, start: 10, end: 20 },
+    { x: 0.8, y: 0.8, marked: 20 }
+  ];
+
+  // Sync route progress with video
+  const { progress } = useRouteVideoSync({
+    videoRef,
+    route,
+    onProgressChange: setCurrentTime
+  });
+
+  return (
+    &lt;div&gt;
+      &lt;video
+        ref={videoRef}
+        src="/path/to/video.mp4"
+        controls
+        style={{ width: '100%', maxWidth: '800px' }}
+      /&gt;
+
+      &lt;ImageRoute
+        src="/path/to/map.jpg"
+        route={route}
+        progress={progress}
+        style={{ width: '100%', height: '600px' }}
+      /&gt;
+
+      &lt;p&gt;Current time: {currentTime.toFixed(2)}s&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+      <div class="note">
+        <p><strong>Tip:</strong> The route coordinates use normalized values (0-1 range). <code>x: 0</code> is the left edge, <code>x: 1</code> is the right edge. Same for y-axis (top to bottom).</p>
+      </div>
+    </section>
+
+    <section id="key-features">
+      <h2>Key Features</h2>
+
+      <div class="card">
+        <h3>🖱️ Interactive Navigation</h3>
+        <ul>
+          <li>Right-click and drag to pan around the map</li>
+          <li>Mouse wheel to zoom in and out</li>
+          <li>Touch support: pinch-to-zoom and drag gestures</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🎥 Video Synchronization</h3>
+        <ul>
+          <li>Sync route progress with video playback</li>
+          <li>Click on route points to seek video</li>
+          <li>Real-time highlighting of active route segments</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🎨 Fully Customizable</h3>
+        <ul>
+          <li>Custom point and path renderers</li>
+          <li>Configurable zoom levels and sensitivity</li>
+          <li>Animation timing controls</li>
+          <li>TypeScript support with full type definitions</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>📐 Normalized Coordinates</h3>
+        <ul>
+          <li>Define routes using 0-1 coordinate system</li>
+          <li>Responsive across all screen sizes</li>
+          <li>No need to worry about pixel dimensions</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="tools">
+      <h2>Interactive Tools</h2>
+      <p>Try out these interactive tools to explore map-routing features:</p>
+
+      <div class="card">
+        <h3>🎨 Route Creator</h3>
+        <p>Visual editor for creating route data files with video synchronization</p>
+        <a href="../routeCreator/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Launch Tool →</a>
+      </div>
+
+      <div class="card">
+        <h3>🧪 Examples</h3>
+        <p>Interactive examples and test cases</p>
+        <a href="examples.html" class="btn btn-secondary">View Examples →</a>
+      </div>
+    </section>
+
+    <section id="next-steps">
+      <h2>Next Steps</h2>
+      <p>Explore more about what map-routing can do:</p>
+
+      <ul>
+        <li><a href="api.html">API Reference</a> - Complete documentation of all props, hooks, and types</li>
+        <li><a href="features.html">Features & Customizations</a> - Learn about advanced features and customization options</li>
+        <li><a href="route-creator.html">Route Creator Tool</a> - Visual editor for creating route data with video synchronization</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 map-routing. MIT License.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+</body>
+</html>

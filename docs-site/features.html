@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Features & Customizations - map-routing</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">map-routing</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Getting Started</a></li>
+        <li><a href="api.html">API Reference</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="examples.html">Examples</a></li>
+        <li><a href="route-creator.html">Route Creator</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <h1>Features & Customizations</h1>
+
+    <section id="normalized-coordinates">
+      <h2>Core Concepts</h2>
+
+      <h3>Normalized Coordinates</h3>
+      <p>map-routing uses a normalized coordinate system where all positions are expressed as values between 0 and 1, making routes responsive and independent of actual image dimensions.</p>
+
+      <div class="diagram">
+        <h4>Coordinate System Explained</h4>
+        <pre><code>
+(0,0) ─────────────────────── (1,0)
+  │                              │
+  │      • (0.5, 0.3)            │
+  │                              │
+  │                • (0.7, 0.6)  │
+  │                              │
+(0,1) ─────────────────────── (1,1)
+
+X-axis: 0 (left) → 1 (right)
+Y-axis: 0 (top) → 1 (bottom)
+        </code></pre>
+      </div>
+
+      <h4>Example Point Definitions</h4>
+      <pre><code class="language-javascript">const route = [
+  { x: 0, y: 0, marked: 0 },       // Top-left corner at t=0s
+  { x: 0.5, y: 0.5, start: 0, end: 10 },  // Center point, path from 0-10s
+  { x: 1, y: 1, marked: 10 }       // Bottom-right corner at t=10s
+];</code></pre>
+
+      <div class="note">
+        <p><strong>Why Normalized Coordinates?</strong> This approach ensures your routes scale perfectly across different screen sizes and image resolutions without any code changes.</p>
+      </div>
+
+      <h3>Point Types</h3>
+      <p>There are two types of points in a route:</p>
+
+      <ul>
+        <li><strong>Standalone Points:</strong> Use <code>marked</code> property for points without connecting paths (start/end markers)</li>
+        <li><strong>Path Segments:</strong> Use <code>start</code> and <code>end</code> properties to define segments with duration</li>
+      </ul>
+
+      <pre><code class="language-javascript">const route = [
+  // Standalone point (marker)
+  { x: 0.2, y: 0.3, marked: 0, data: "Starting location" },
+
+  // Path segments (connected)
+  { x: 0.4, y: 0.5, start: 0, end: 5 },
+  { x: 0.6, y: 0.7, start: 5, end: 10 },
+
+  // Another standalone point (marker)
+  { x: 0.8, y: 0.8, marked: 10, data: "Ending location" }
+];</code></pre>
+    </section>
+
+    <section id="interactions">
+      <h2>Interaction Controls</h2>
+
+      <h3>Mouse Controls</h3>
+      <ul>
+        <li><strong>Pan:</strong> Right-click and drag to move around the map</li>
+        <li><strong>Zoom:</strong> Scroll mouse wheel up/down to zoom in/out</li>
+        <li><strong>Click:</strong> Left-click on route points to jump to that timestamp (if <code>onProgressChange</code> is provided)</li>
+      </ul>
+
+      <h3>Touch Gestures</h3>
+      <ul>
+        <li><strong>Pan:</strong> Single-finger drag to move the map</li>
+        <li><strong>Zoom:</strong> Pinch with two fingers to zoom in/out</li>
+        <li><strong>Tap:</strong> Tap on route points to jump to that timestamp</li>
+      </ul>
+
+      <div class="note">
+        <p><strong>Tap Detection:</strong> Use the <code>tapThreshold</code> prop to adjust how much movement is allowed before a tap becomes a drag (default: 10 pixels).</p>
+      </div>
+    </section>
+
+    <section id="configuration">
+      <h2>Configuration Options</h2>
+
+      <h3>Zoom Configuration</h3>
+      <p>Fine-tune the zoom behavior to match your needs:</p>
+
+      <pre><code class="language-jsx">&lt;ImageRoute
+  src="/map.jpg"
+  route={route}
+  minZoom={0.5}           // Allow zooming out to 50%
+  maxZoom={10}            // Allow zooming in to 1000%
+  zoomSensitivity={0.002} // Higher = more sensitive wheel zoom
+/&gt;</code></pre>
+
+      <h4>Zoom Presets</h4>
+      <pre><code class="language-javascript">// Conservative (limited zoom)
+const conservativeZoom = {
+  minZoom: 0.8,
+  maxZoom: 3,
+  zoomSensitivity: 0.0005
+};
+
+// Default (balanced)
+const defaultZoom = {
+  minZoom: 1,
+  maxZoom: 5,
+  zoomSensitivity: 0.001
+};
+
+// Aggressive (wide zoom range)
+const aggressiveZoom = {
+  minZoom: 0.5,
+  maxZoom: 15,
+  zoomSensitivity: 0.003
+};</code></pre>
+
+      <h3>Animation Configuration</h3>
+      <p>Control the smoothness and timing of animations:</p>
+
+      <pre><code class="language-jsx">&lt;ImageRoute
+  src="/map.jpg"
+  route={route}
+  animationDuration={400}  // Slower, smoother transitions
+  animationDelay={50}      // Slight delay before animation starts
+/&gt;</code></pre>
+
+      <h3>Interaction Thresholds</h3>
+      <pre><code class="language-jsx">&lt;ImageRoute
+  src="/map.jpg"
+  route={route}
+  snapThreshold={0.03}     // Larger click target area for points
+  tapThreshold={15}        // More forgiving tap detection on touch
+/&gt;</code></pre>
+    </section>
+
+    <section id="custom-renderers">
+      <h2>Custom Renderers</h2>
+
+      <h3>Custom Point Renderer</h3>
+      <p>Completely customize how route points are displayed:</p>
+
+      <pre><code class="language-jsx">import { ImageRoute } from 'map-routing';
+
+function CustomPointRenderer({ spot, index }) {
+  const { point, visited, active } = spot;
+
+  return (
+    &lt;div
+      style={{
+        position: 'absolute',
+        left: `${point.x * 100}%`,
+        top: `${point.y * 100}%`,
+        transform: 'translate(-50%, -50%)',
+        width: active ? '20px' : '12px',
+        height: active ? '20px' : '12px',
+        borderRadius: '50%',
+        backgroundColor: visited ? '#00ff00' : '#ff0000',
+        border: active ? '3px solid yellow' : '2px solid white',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+        transition: 'all 0.3s ease',
+        zIndex: active ? 10 : 5
+      }}
+    &gt;
+      {point.data && (
+        &lt;div style={{
+          position: 'absolute',
+          top: '-30px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          whiteSpace: 'nowrap',
+          padding: '4px 8px',
+          backgroundColor: 'rgba(0,0,0,0.8)',
+          color: 'white',
+          borderRadius: '4px',
+          fontSize: '12px'
+        }}&gt;
+          {point.data}
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+function App() {
+  return (
+    &lt;ImageRoute
+      src="/map.jpg"
+      route={routeWithLabels}
+      renderPoint={CustomPointRenderer}
+    /&gt;
+  );
+}</code></pre>
+
+      <h3>Custom Path Renderer</h3>
+      <p>Customize how path segments between points are drawn:</p>
+
+      <pre><code class="language-jsx">function CustomPathRenderer({ from, to }) {
+  const { point: fromPoint, visited: fromVisited } = from;
+  const { point: toPoint, visited: toVisited } = to;
+
+  const pathVisited = fromVisited && toVisited;
+
+  // Calculate SVG path
+  const pathD = `M ${fromPoint.x * 100} ${fromPoint.y * 100}
+                 L ${toPoint.x * 100} ${toPoint.y * 100}`;
+
+  return (
+    &lt;svg
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none'
+      }}
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+    &gt;
+      &lt;path
+        d={pathD}
+        stroke={pathVisited ? '#00ff00' : '#cccccc'}
+        strokeWidth={pathVisited ? '0.5' : '0.3'}
+        strokeDasharray={pathVisited ? 'none' : '2,2'}
+        fill="none"
+      /&gt;
+    &lt;/svg&gt;
+  );
+}
+
+function App() {
+  return (
+    &lt;ImageRoute
+      src="/map.jpg"
+      route={route}
+      renderPath={CustomPathRenderer}
+    /&gt;
+  );
+}</code></pre>
+
+      <h3>Custom Extra Overlay</h3>
+      <p>Add additional overlays like labels, legends, or custom UI:</p>
+
+      <pre><code class="language-jsx">function CustomOverlay({ spots, progress }) {
+  const activeSpot = spots.find(s =&gt; s.active);
+
+  return (
+    &lt;div style={{
+      position: 'absolute',
+      top: '20px',
+      right: '20px',
+      backgroundColor: 'rgba(255,255,255,0.9)',
+      padding: '15px',
+      borderRadius: '8px',
+      boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+      minWidth: '200px'
+    }}&gt;
+      &lt;h3 style={{ margin: '0 0 10px 0' }}&gt;Route Info&lt;/h3&gt;
+      &lt;p&gt;Progress: {progress?.toFixed(1)}s&lt;/p&gt;
+      {activeSpot && activeSpot.point.data && (
+        &lt;p&gt;Current: {activeSpot.point.data}&lt;/p&gt;
+      )}
+      &lt;p&gt;Visited: {spots.filter(s =&gt; s.visited).length}/{spots.length}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+function App() {
+  return (
+    &lt;ImageRoute
+      src="/map.jpg"
+      route={route}
+      progress={currentTime}
+      renderExtra={CustomOverlay}
+    /&gt;
+  );
+}</code></pre>
+    </section>
+
+    <section id="video-sync-advanced">
+      <h2>Advanced Video Synchronization</h2>
+
+      <h3>Bidirectional Sync</h3>
+      <p>Create a fully synchronized experience where clicking the map seeks the video and video playback updates the map:</p>
+
+      <pre><code class="language-jsx">import { ImageRoute, useRouteVideoSync } from 'map-routing';
+import { useRef } from 'react';
+
+function FullVideoSync() {
+  const videoRef = useRef(null);
+
+  const route = [
+    { x: 0.2, y: 0.3, marked: 0 },
+    { x: 0.5, y: 0.5, start: 0, end: 30 },
+    { x: 0.8, y: 0.7, marked: 30 }
+  ];
+
+  const { progress, setProgress } = useRouteVideoSync({
+    videoRef,
+    route,
+    onProgressChange: (time) =&gt; {
+      console.log('Video time updated:', time);
+    }
+  });
+
+  return (
+    &lt;div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}&gt;
+      &lt;video
+        ref={videoRef}
+        src="/video.mp4"
+        controls
+        style={{ width: '100%', maxHeight: '400px' }}
+      /&gt;
+
+      &lt;ImageRoute
+        src="/map.jpg"
+        route={route}
+        progress={progress}
+        onProgressChange={setProgress}  // Clicking map seeks video
+        style={{ width: '100%', height: '500px' }}
+      /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+      <h3>Multiple Video Sources</h3>
+      <p>Sync a single map with multiple video angles:</p>
+
+      <pre><code class="language-jsx">function MultiVideoSync() {
+  const video1Ref = useRef(null);
+  const video2Ref = useRef(null);
+  const [currentTime, setCurrentTime] = useState(0);
+
+  const route = [...]; // Your route data
+
+  // Sync first video
+  useRouteVideoSync({
+    videoRef: video1Ref,
+    route,
+    onProgressChange: setCurrentTime
+  });
+
+  // Sync second video
+  useRouteVideoSync({
+    videoRef: video2Ref,
+    route,
+    onProgressChange: setCurrentTime
+  });
+
+  const handleMapClick = (time) =&gt; {
+    // Seek both videos
+    if (video1Ref.current) video1Ref.current.currentTime = time;
+    if (video2Ref.current) video2Ref.current.currentTime = time;
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}&gt;
+        &lt;video ref={video1Ref} src="/angle1.mp4" controls /&gt;
+        &lt;video ref={video2Ref} src="/angle2.mp4" controls /&gt;
+      &lt;/div&gt;
+
+      &lt;ImageRoute
+        src="/map.jpg"
+        route={route}
+        progress={currentTime}
+        onProgressChange={handleMapClick}
+        style={{ width: '100%', height: '600px', marginTop: '20px' }}
+      /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+    </section>
+
+    <section id="data-formats">
+      <h2>Data Format Examples</h2>
+
+      <h3>Simple Route (No Video Sync)</h3>
+      <pre><code class="language-javascript">const simpleRoute = [
+  { x: 0.1, y: 0.2 },
+  { x: 0.3, y: 0.4 },
+  { x: 0.5, y: 0.6 },
+  { x: 0.7, y: 0.8 }
+];</code></pre>
+
+      <h3>Route with Timestamps</h3>
+      <pre><code class="language-javascript">const timedRoute = [
+  { x: 0.2, y: 0.3, marked: 0 },              // Start marker at 0s
+  { x: 0.4, y: 0.4, start: 0, end: 10 },      // First segment: 0-10s
+  { x: 0.5, y: 0.6, start: 10, end: 25 },     // Second segment: 10-25s
+  { x: 0.7, y: 0.7, start: 25, end: 40 },     // Third segment: 25-40s
+  { x: 0.8, y: 0.8, marked: 40 }              // End marker at 40s
+];</code></pre>
+
+      <h3>Route with Custom Data</h3>
+      <pre><code class="language-javascript">const routeWithMetadata = [
+  {
+    x: 0.2,
+    y: 0.3,
+    marked: 0,
+    data: "Trail Start - Parking Area"
+  },
+  {
+    x: 0.4,
+    y: 0.5,
+    start: 0,
+    end: 15,
+    data: "Forest Path"
+  },
+  {
+    x: 0.6,
+    y: 0.6,
+    start: 15,
+    end: 30,
+    data: "Creek Crossing"
+  },
+  {
+    x: 0.8,
+    y: 0.8,
+    marked: 30,
+    data: "Summit - 2,500ft"
+  }
+];</code></pre>
+
+      <h3>Complex Multi-Stop Route</h3>
+      <pre><code class="language-javascript">const complexRoute = [
+  { x: 0.15, y: 0.2, marked: 0, data: "Start" },
+  { x: 0.25, y: 0.3, start: 0, end: 5 },
+  { x: 0.35, y: 0.35, marked: 5, data: "Waypoint 1" },
+  { x: 0.45, y: 0.4, start: 5, end: 12 },
+  { x: 0.55, y: 0.5, marked: 12, data: "Waypoint 2" },
+  { x: 0.65, y: 0.6, start: 12, end: 20 },
+  { x: 0.75, y: 0.7, marked: 20, data: "Waypoint 3" },
+  { x: 0.85, y: 0.8, start: 20, end: 28 },
+  { x: 0.9, y: 0.85, marked: 28, data: "End" }
+];</code></pre>
+    </section>
+
+    <section id="tips">
+      <h2>Tips & Best Practices</h2>
+
+      <h3>Performance</h3>
+      <ul>
+        <li>Keep route arrays under 100 points for optimal performance</li>
+        <li>Use memoization for custom renderers to avoid unnecessary re-renders</li>
+        <li>Optimize images (use WebP or optimized JPG/PNG)</li>
+      </ul>
+
+      <h3>User Experience</h3>
+      <ul>
+        <li>Provide visual feedback for interactive elements (cursor changes, hover states)</li>
+        <li>Add loading states while images are loading</li>
+        <li>Include instructions for first-time users (right-click to pan, scroll to zoom)</li>
+        <li>Use the <code>data</code> property to add helpful labels to points</li>
+      </ul>
+
+      <h3>Responsive Design</h3>
+      <ul>
+        <li>Set container dimensions using CSS (percentage or viewport units)</li>
+        <li>Test on mobile devices to ensure touch gestures work well</li>
+        <li>Consider different aspect ratios when designing routes</li>
+      </ul>
+
+      <h3>Accessibility</h3>
+      <ul>
+        <li>Provide alternative text descriptions for maps</li>
+        <li>Ensure sufficient color contrast in custom renderers</li>
+        <li>Consider keyboard navigation for users who can't use a mouse</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 map-routing. MIT License.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+</body>
+</html>

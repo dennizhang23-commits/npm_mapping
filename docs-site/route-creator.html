@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Route Creator Tool - map-routing</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">map-routing</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Getting Started</a></li>
+        <li><a href="api.html">API Reference</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="examples.html">Examples</a></li>
+        <li><a href="route-creator.html">Route Creator</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <h1>Route Creator Tool</h1>
+    <p class="tagline">Visual editor for creating route data with video synchronization</p>
+
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>Create routes with video synchronization from just a map image and video file. The Route Creator provides a visual interface for clicking points on your map and syncing them with video timestamps.</p>
+
+      <div class="card">
+        <h3>What You Can Do</h3>
+        <ul>
+          <li>Upload a map image and video file</li>
+          <li>Click on the map to create route points with video timings</li>
+          <li>Export route data as JSON for use with map-routing</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; padding: 30px; margin: 30px 0;">
+      <h3 style="color: white; margin-top: 0;">Try it Now!</h3>
+      <p style="color: white; opacity: 0.95;">Launch the Route Creator tool in your browser</p>
+      <a href="../routeCreator/" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="background: white; color: #667eea; border: none; padding: 12px 24px; font-weight: bold; text-decoration: none; display: inline-block; border-radius: 4px; margin-top: 10px;">
+        Open Route Creator →
+      </a>
+    </div>
+
+    <section id="basic-workflow">
+      <h2>Basic Workflow</h2>
+
+      <h3>1. Upload Files</h3>
+      <p>Start by uploading your map image and video file:</p>
+      <ul>
+        <li>Click "Map Image" and select your map (PNG, JPG, etc.)</li>
+        <li>Click "Video" and select your video file (MP4 recommended)</li>
+      </ul>
+
+      <h3>2. Create Points</h3>
+      <p>Click on the map to add route points. The Route Creator supports three click modes:</p>
+
+      <div class="card">
+        <h4>Regular Click - Add to end</h4>
+        <p>Simply click anywhere on the map to add a point at the end of your route.</p>
+      </div>
+
+      <div class="card">
+        <h4>Shift+Click - Insert between points</h4>
+        <p>Select a point first, then hold Shift and click on the map. The new point will be inserted immediately after the selected point.</p>
+        <p><strong>Use case:</strong> You've placed all your points but realize you missed one in the middle.</p>
+      </div>
+
+      <div class="card">
+        <h4>Ctrl+Click - Reposition point</h4>
+        <p>Select a point first, then hold Ctrl (or Cmd on Mac) and click on the map. The selected point moves to the clicked location.</p>
+        <p><strong>Use case:</strong> Fine-tune point positions without deleting and recreating them.</p>
+      </div>
+
+      <h3>3. Sync with Video</h3>
+      <p>Once you have points on the map, sync them with your video:</p>
+      <ol>
+        <li>Press <strong>Space</strong> to play the video</li>
+        <li>Pause at a key moment where you want a point</li>
+        <li>Select the corresponding point in the Point Editor</li>
+        <li>Click "Set Current" next to "Timestamp (marked)"</li>
+        <li>Repeat for all points</li>
+      </ol>
+
+      <div class="note">
+        <p><strong>Tip:</strong> It's usually faster to place all points first, then go back and add timestamps, rather than alternating between placement and timing.</p>
+      </div>
+
+      <h3>4. Configure Point Properties</h3>
+      <p>Each point can have additional properties:</p>
+
+      <h4>Timestamps</h4>
+      <ul>
+        <li><strong>Marked:</strong> The timestamp when this point should be reached (most common)</li>
+        <li><strong>Start:</strong> Optional custom start time for entering this point</li>
+        <li><strong>End:</strong> Optional custom end time for leaving this point</li>
+      </ul>
+
+      <h4>Data Attributes</h4>
+      <ul>
+        <li><strong>None:</strong> Standard visible point (default)</li>
+        <li><strong>Hidden:</strong> Point won't be visible on the map (useful for guiding the path)</li>
+        <li><strong>Jump:</strong> Creates a dashed line between points (for teleports or fast travel)</li>
+      </ul>
+
+      <h3>5. Export Your Route</h3>
+      <p>When you're done, click "Export JSON" to download your route data. You can also click "Import JSON" to load a previously saved route.</p>
+    </section>
+
+    <section id="keyboard-shortcuts">
+      <h2>Keyboard Shortcuts</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Space</code></td>
+            <td>Play/pause video</td>
+          </tr>
+          <tr>
+            <td><code>Delete</code></td>
+            <td>Delete selected point</td>
+          </tr>
+          <tr>
+            <td><code>Ctrl+Z</code> (or <code>Cmd+Z</code>)</td>
+            <td>Undo last point addition or relocation</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="tips">
+      <h2>Tips & Tricks</h2>
+
+      <div class="card">
+        <h3>Workflow: Placement First, Timing Later</h3>
+        <p>The most efficient workflow is:</p>
+        <ol>
+          <li>Click to place all route points on the map</li>
+          <li>Play through the video once, pausing at key moments</li>
+          <li>Select each point and click "Set Current" for its timestamp</li>
+          <li>Use Previous/Next buttons to navigate between points</li>
+        </ol>
+        <p>This is much faster than alternating between placement and timing.</p>
+      </div>
+
+      <div class="card">
+        <h3>Use Shift+Click for Missed Points</h3>
+        <p>Realized you missed a point between two existing ones? No problem:</p>
+        <ol>
+          <li>Select the point <em>before</em> where you want to insert</li>
+          <li>Hold Shift and click on the map</li>
+          <li>The new point is inserted in the right place</li>
+        </ol>
+        <p>No need to delete and recreate later points!</p>
+      </div>
+
+      <div class="card">
+        <h3>Fine-Tune with Ctrl+Click</h3>
+        <p>Point not quite in the right spot?</p>
+        <ol>
+          <li>Select the point you want to move</li>
+          <li>Hold Ctrl (or Cmd) and click the new location</li>
+          <li>The point moves without affecting your other points</li>
+        </ol>
+        <p>Much faster than deleting and recreating!</p>
+      </div>
+
+      <div class="card">
+        <h3>Undo History</h3>
+        <p>Made a mistake? Press <code>Ctrl+Z</code> (or <code>Cmd+Z</code>) to undo:</p>
+        <ul>
+          <li>Point additions (regular click and Shift+Click)</li>
+          <li>Point relocations (Ctrl+Click)</li>
+        </ul>
+        <p>You can undo multiple times through your entire click history!</p>
+      </div>
+
+      <div class="card">
+        <h3>Using Data Attributes</h3>
+        <p><strong>Hidden points:</strong> Use <code>data: hidden</code> for points that guide the route but shouldn't be visible. Perfect for smooth curves or paths that need intermediate control points.</p>
+        <p><strong>Jump lines:</strong> Use <code>data: jump</code> for teleports, fast travel, or non-linear movement. Creates a dashed line to indicate the path is discontinuous.</p>
+      </div>
+    </section>
+
+    <section id="export-format">
+      <h2>Export Format</h2>
+      <p>The Route Creator exports JSON in this format:</p>
+
+      <pre><code class="language-json">[
+  {
+    "x": 0.234,
+    "y": 0.567,
+    "marked": 5.2
+  },
+  {
+    "x": 0.456,
+    "y": 0.789,
+    "start": 10.5,
+    "end": 15.3,
+    "data": "hidden"
+  },
+  {
+    "x": 0.678,
+    "y": 0.345,
+    "marked": 20.0,
+    "data": "jump"
+  }
+]</code></pre>
+
+      <h3>Using Your Route Data</h3>
+      <p>Once you've exported your JSON file, use it with the map-routing package:</p>
+
+      <pre><code class="language-jsx">import { ImageRoute } from 'map-routing';
+import routeData from './route-data.json';
+
+function MyMap() {
+  return (
+    &lt;ImageRoute points={routeData}&gt;
+      &lt;img src="your-map.png" alt="Map" /&gt;
+    &lt;/ImageRoute&gt;
+  );
+}</code></pre>
+
+      <p>See the <a href="api.html">API Reference</a> for more details on using routes in your application.</p>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>Troubleshooting</h2>
+
+      <div class="card">
+        <h3>Video Not Playing</h3>
+        <p>If your video won't play:</p>
+        <ul>
+          <li>Check video format compatibility (MP4 with H.264 codec recommended)</li>
+          <li>Some codecs may not work in all browsers</li>
+          <li>Try converting to a more compatible format using tools like HandBrake or FFmpeg</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Shift+Click or Ctrl+Click Not Working</h3>
+        <p>These modifier clicks require a point to be selected first:</p>
+        <ul>
+          <li>Click a point in the Points list to select it</li>
+          <li>Make sure you're holding the modifier key while clicking</li>
+          <li>The selected point will have an orange circle indicator on the map</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Export Button Disabled</h3>
+        <p>The export button is disabled when there are no points. Add at least one point by clicking on the map.</p>
+      </div>
+
+      <div class="card">
+        <h3>Undo Not Working</h3>
+        <p>The undo history only tracks:</p>
+        <ul>
+          <li>Point additions (regular click and Shift+Click)</li>
+          <li>Point relocations (Ctrl+Click)</li>
+        </ul>
+        <p>It does NOT track:</p>
+        <ul>
+          <li>Point deletions</li>
+          <li>Manual edits to timestamps or data attributes</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="technical">
+      <h2>Technical Details</h2>
+
+      <h3>Point Properties Reference</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>x</code></td>
+            <td>number</td>
+            <td>✅</td>
+            <td>Horizontal position (0-1 normalized)</td>
+          </tr>
+          <tr>
+            <td><code>y</code></td>
+            <td>number</td>
+            <td>✅</td>
+            <td>Vertical position (0-1 normalized)</td>
+          </tr>
+          <tr>
+            <td><code>marked</code></td>
+            <td>number</td>
+            <td>❌</td>
+            <td>Timestamp when point should be reached (seconds)</td>
+          </tr>
+          <tr>
+            <td><code>start</code></td>
+            <td>number</td>
+            <td>❌</td>
+            <td>Optional custom start time (seconds)</td>
+          </tr>
+          <tr>
+            <td><code>end</code></td>
+            <td>number</td>
+            <td>❌</td>
+            <td>Optional custom end time (seconds)</td>
+          </tr>
+          <tr>
+            <td><code>data</code></td>
+            <td>string</td>
+            <td>❌</td>
+            <td>Special attributes: <code>"hidden"</code> or <code>"jump"</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Browser Compatibility</h3>
+      <ul>
+        <li>Modern browsers with ES6+ module support</li>
+        <li>HTML5 video support required</li>
+        <li>Tested on Chrome, Firefox, Safari, and Edge</li>
+      </ul>
+
+      <h3>Dependencies</h3>
+      <ul>
+        <li>React 18+</li>
+        <li>React DOM</li>
+        <li>map-routing package</li>
+        <li>styled-components</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 map-routing. MIT License.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Examples - map-routing</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">map-routing</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Getting Started</a></li>
+        <li><a href="api.html">API Reference</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="examples.html">Examples</a></li>
+        <li><a href="route-creator.html">Route Creator</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main style="max-width: none; padding: 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 40px 20px 20px;">
+      <h1>Interactive Examples</h1>
+      <p class="tagline">Live demonstrations of map-routing features</p>
+
+      <section id="map-sync-demo">
+        <h2>Map Sync Demo</h2>
+        <p>This example demonstrates bidirectional video-route synchronization:</p>
+
+        <ul>
+          <li>Video playback automatically updates route progress</li>
+          <li>Route progress tracking (spots collected counter)</li>
+          <li>Click route points to seek the video</li>
+        </ul>
+
+        <div class="note">
+          <p><strong>Try it:</strong> Play the video to watch route progress, or click on the route points to jump to that moment in the video.</p>
+        </div>
+      </section>
+    </div>
+
+    <div style="width: 100%; background: #0a0a0a; border-top: 2px solid #333; border-bottom: 2px solid #333;">
+      <div id="root" style="width: 100%; height: 85vh; background: #1a1a1a;"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 map-routing. MIT License.</p>
+  </footer>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.3.1?dev",
+        "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime?dev",
+        "react-dom": "https://esm.sh/react-dom@18.3.1?dev",
+        "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?dev",
+        "styled-components": "https://esm.sh/styled-components@6.1.13?external=react&dev",
+        "rooks": "https://esm.sh/rooks@7.14.1?external=react&dev"
+      }
+    }
+  </script>
+
+  <script type="module" src="./example1.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+</body>
+</html>

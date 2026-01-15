@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Reference - map-routing</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">map-routing</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Getting Started</a></li>
+        <li><a href="api.html">API Reference</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="examples.html">Examples</a></li>
+        <li><a href="route-creator.html">Route Creator</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <h1>API Reference</h1>
+
+    <section id="imageroute">
+      <h2>ImageRoute Component</h2>
+      <p>The main component for displaying an interactive route overlay on a map image.</p>
+
+      <h3>Props</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Prop</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>src</code><span class="badge badge-required">required</span></td>
+            <td><code>string</code></td>
+            <td>-</td>
+            <td>Source URL of the map image</td>
+          </tr>
+          <tr>
+            <td><code>route</code><span class="badge badge-required">required</span></td>
+            <td><code>Point[]</code></td>
+            <td>-</td>
+            <td>Array of route points (see <a href="#point-type">Point type</a>)</td>
+          </tr>
+          <tr>
+            <td><code>progress</code></td>
+            <td><code>number</code></td>
+            <td><code>undefined</code></td>
+            <td>Current progress timestamp for video sync (in seconds)</td>
+          </tr>
+          <tr>
+            <td><code>minZoom</code></td>
+            <td><code>number</code></td>
+            <td><code>1</code></td>
+            <td>Minimum zoom level allowed</td>
+          </tr>
+          <tr>
+            <td><code>maxZoom</code></td>
+            <td><code>number</code></td>
+            <td><code>5</code></td>
+            <td>Maximum zoom level allowed</td>
+          </tr>
+          <tr>
+            <td><code>zoomSensitivity</code></td>
+            <td><code>number</code></td>
+            <td><code>0.001</code></td>
+            <td>Mouse wheel zoom sensitivity</td>
+          </tr>
+          <tr>
+            <td><code>animationDuration</code></td>
+            <td><code>number</code></td>
+            <td><code>300</code></td>
+            <td>Animation duration in milliseconds</td>
+          </tr>
+          <tr>
+            <td><code>animationDelay</code></td>
+            <td><code>number</code></td>
+            <td><code>0</code></td>
+            <td>Animation delay in milliseconds</td>
+          </tr>
+          <tr>
+            <td><code>tapThreshold</code></td>
+            <td><code>number</code></td>
+            <td><code>10</code></td>
+            <td>Maximum movement (in pixels) to detect a tap gesture</td>
+          </tr>
+          <tr>
+            <td><code>snapThreshold</code></td>
+            <td><code>number</code></td>
+            <td><code>0.02</code></td>
+            <td>Click proximity threshold for snapping to points (normalized units)</td>
+          </tr>
+          <tr>
+            <td><code>renderPoint</code></td>
+            <td><code>(props: RenderPointProps) =&gt; ReactNode</code></td>
+            <td><code>undefined</code></td>
+            <td>Custom renderer for route points (see <a href="#custom-renderers">Custom Renderers</a>)</td>
+          </tr>
+          <tr>
+            <td><code>renderPath</code></td>
+            <td><code>(props: RenderPathProps) =&gt; ReactNode</code></td>
+            <td><code>undefined</code></td>
+            <td>Custom renderer for path segments (see <a href="#custom-renderers">Custom Renderers</a>)</td>
+          </tr>
+          <tr>
+            <td><code>renderExtra</code></td>
+            <td><code>(props: RenderExtraProps) =&gt; ReactNode</code></td>
+            <td><code>undefined</code></td>
+            <td>Custom renderer for additional overlays</td>
+          </tr>
+          <tr>
+            <td><code>onProgressChange</code></td>
+            <td><code>(time: number) =&gt; void</code></td>
+            <td><code>undefined</code></td>
+            <td>Callback when user clicks on route to change progress</td>
+          </tr>
+          <tr>
+            <td><code>style</code></td>
+            <td><code>CSSProperties</code></td>
+            <td><code>{}</code></td>
+            <td>CSS styles for the container</td>
+          </tr>
+          <tr>
+            <td><code>className</code></td>
+            <td><code>string</code></td>
+            <td><code>undefined</code></td>
+            <td>CSS class name for the container</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Example</h3>
+      <pre><code class="language-jsx">&lt;ImageRoute
+  src="/map.jpg"
+  route={routeData}
+  progress={currentTime}
+  minZoom={0.5}
+  maxZoom={10}
+  zoomSensitivity={0.002}
+  animationDuration={400}
+  onProgressChange={(time) =&gt; console.log('Seek to:', time)}
+  style={{ width: '100%', height: '600px' }}
+/&gt;</code></pre>
+    </section>
+
+    <section id="useroutevideosync">
+      <h2>useRouteVideoSync Hook</h2>
+      <p>Hook for synchronizing route visualization with video playback.</p>
+
+      <h3>Parameters</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>videoRef</code><span class="badge badge-required">required</span></td>
+            <td><code>RefObject&lt;HTMLVideoElement&gt;</code></td>
+            <td>React ref to the video element</td>
+          </tr>
+          <tr>
+            <td><code>route</code><span class="badge badge-required">required</span></td>
+            <td><code>Point[]</code></td>
+            <td>Array of route points with timestamps</td>
+          </tr>
+          <tr>
+            <td><code>onProgressChange</code></td>
+            <td><code>(time: number) =&gt; void</code></td>
+            <td>Callback when video time updates</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Returns</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>progress</code></td>
+            <td><code>number</code></td>
+            <td>Current video time (in seconds)</td>
+          </tr>
+          <tr>
+            <td><code>setProgress</code></td>
+            <td><code>(time: number) =&gt; void</code></td>
+            <td>Function to update video time (seeks video)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Example</h3>
+      <pre><code class="language-jsx">const videoRef = useRef(null);
+
+const { progress, setProgress } = useRouteVideoSync({
+  videoRef,
+  route: routeData,
+  onProgressChange: (time) =&gt; console.log('Video at:', time)
+});
+
+// Use progress in ImageRoute
+&lt;ImageRoute
+  src="/map.jpg"
+  route={routeData}
+  progress={progress}
+  onProgressChange={setProgress}
+/&gt;</code></pre>
+    </section>
+
+    <section id="types">
+      <h2>TypeScript Types</h2>
+
+      <h3 id="point-type">Point</h3>
+      <p>Defines a single point in the route with optional timestamp information.</p>
+
+      <pre><code class="language-typescript">type Point = {
+  x: number;           // Normalized X coordinate (0-1, left to right)
+  y: number;           // Normalized Y coordinate (0-1, top to bottom)
+  marked?: number;     // Single timestamp for standalone points (seconds)
+  start?: number;      // Segment start time for path segments (seconds)
+  end?: number;        // Segment end time for path segments (seconds)
+  data?: string;       // Optional custom data
+};</code></pre>
+
+      <div class="note">
+        <p><strong>Coordinate System:</strong> All coordinates are normalized (0-1 range). This makes routes responsive and independent of actual image dimensions.</p>
+      </div>
+
+      <h3 id="spot-type">Spot</h3>
+      <p>Represents a point on the map with interpolation information.</p>
+
+      <pre><code class="language-typescript">type Spot = {
+  point: Point;        // The route point
+  time: number;        // Current time (seconds)
+  visited: boolean;    // Whether this point has been passed
+  active: boolean;     // Whether this point is currently active
+};</code></pre>
+
+      <h3 id="custom-renderers">Custom Renderer Props</h3>
+
+      <h4>RenderPointProps</h4>
+      <pre><code class="language-typescript">type RenderPointProps = {
+  spot: Spot;          // The spot being rendered
+  index: number;       // Index in the route array
+  route: Point[];      // Full route data
+};</code></pre>
+
+      <h4>RenderPathProps</h4>
+      <pre><code class="language-typescript">type RenderPathProps = {
+  from: Spot;          // Starting spot
+  to: Spot;            // Ending spot
+  index: number;       // Index of the starting point
+  route: Point[];      // Full route data
+};</code></pre>
+
+      <h4>RenderExtraProps</h4>
+      <pre><code class="language-typescript">type RenderExtraProps = {
+  spots: Spot[];       // All spots in the route
+  route: Point[];      // Full route data
+  progress?: number;   // Current progress time
+};</code></pre>
+    </section>
+
+    <section id="utilities">
+      <h2>Utility Functions & Hooks</h2>
+
+      <h3>calculateOptimalZoom</h3>
+      <p>Calculate the optimal zoom level to fit a route within the viewport.</p>
+
+      <pre><code class="language-typescript">function calculateOptimalZoom(
+  route: Point[],
+  containerWidth: number,
+  containerHeight: number,
+  padding?: number
+): number;</code></pre>
+
+      <h4>Parameters</h4>
+      <ul>
+        <li><code>route</code> - Array of route points</li>
+        <li><code>containerWidth</code> - Container width in pixels</li>
+        <li><code>containerHeight</code> - Container height in pixels</li>
+        <li><code>padding</code> - Optional padding factor (default: 0.1 = 10%)</li>
+      </ul>
+
+      <h4>Example</h4>
+      <pre><code class="language-jsx">const zoom = calculateOptimalZoom(route, 800, 600, 0.15);</code></pre>
+
+      <h3>Exported Utility Hooks</h3>
+      <p>The following hooks are available for advanced use cases:</p>
+
+      <ul>
+        <li><code>useBoundingClientRect</code> - Track element dimensions</li>
+        <li><code>useControlledState</code> - Controlled/uncontrolled state pattern</li>
+        <li><code>useEventListener</code> - Declarative event listener management</li>
+        <li><code>useHistory</code> - Undo/redo state management</li>
+        <li><code>useResizeObserver</code> - Observe element resize events</li>
+      </ul>
+
+      <div class="note">
+        <p><strong>Note:</strong> These hooks are primarily used internally but exported for advanced customization scenarios. Refer to the source code for detailed usage.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 map-routing. MIT License.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+</body>
+</html>
