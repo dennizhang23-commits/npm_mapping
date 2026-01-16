@@ -82,7 +82,7 @@ function FarmingRoute() {
 
 	// Load points data
 	useEffect(() => {
-		fetch('/public/Seiraimaru.json')
+		fetch('../public/Seiraimaru.json')
 			.then(res => res.json())
 			.then(data => setPoints(data))
 			.catch(err => console.error('Failed to load points:', err));
@@ -283,7 +283,7 @@ function FarmingRoute() {
 			},
 				h('video', {
 					ref: videoRef,
-					src: '/public/Seiraimaru.mp4',
+					src: '../public/Seiraimaru.mp4',
 					controls: true,
 					style: {
 						width: '100%',
@@ -321,7 +321,7 @@ function FarmingRoute() {
 				RenderExtra: RenderExtra
 			},
 				h('img', {
-					src: '/public/Seiraimaru.png',
+					src: '../public/Seiraimaru.png',
 					alt: mapName,
 					style: {
 						width: '100%',

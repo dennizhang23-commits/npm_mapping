@@ -476,15 +476,15 @@ function RouteCreator() {
 	useEffect(() => {
 		if (usePresets) {
 			// Load map image
-			setMapImageSrc('/public/Seiraimaru.png');
+			setMapImageSrc('../public/Seiraimaru.png');
 			setMapFileName('Seiraimaru.png');
 
 			// Load video
-			setVideoSrc('/public/Seiraimaru.mp4');
+			setVideoSrc('../public/Seiraimaru.mp4');
 			setVideoFileName('Seiraimaru.mp4');
 
 			// Load route data
-			fetch('/public/Seiraimaru.json')
+			fetch('../public/Seiraimaru.json')
 				.then(response => response.json())
 				.then(data => {
 					if (Array.isArray(data)) {

@@ -1,22 +1,5 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": ".",
-  "installCommand": "npm run install:all",
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/docs-site/index.html"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600"
-        }
-      ]
-    }
-  ]
+  "outputDirectory": "docs-site",
+  "installCommand": "npm run install:all"
 }
