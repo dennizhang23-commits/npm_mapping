@@ -1,0 +1,27 @@
+# Source files (users only need dist/)
+src/
+
+# Development files
+tsconfig.json
+tsup.config.ts
+.git/
+.gitignore
+
+# Dependencies
+node_modules/
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db

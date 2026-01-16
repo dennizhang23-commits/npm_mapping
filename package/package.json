@@ -1,0 +1,71 @@
+{
+  "name": "npm-map-routing",
+  "version": "1.0.0",
+  "description": "Interactive image route overlay: render points and segments in an SVG layer, convert pointer input to normalized coordinates, and support pan/zoom navigation with video synchronization.",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint src",
+    "format": "prettier --write src",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dennizhang23-commits/npm_mapping.git"
+  },
+  "keywords": [
+    "route",
+    "map",
+    "coordinate",
+    "navigation",
+    "videomapping",
+    "react",
+    "route-visualization",
+    "image-overlay",
+    "pan-zoom",
+    "svg-overlay",
+    "interactive-map"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dennizhang23-commits/npm_mapping/issues"
+  },
+  "homepage": "https://github.com/dennizhang23-commits/npm_mapping#readme",
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "rooks": "^7.14.1",
+    "styled-components": "^5.0.0 || ^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "eslint": "^9.39.2",
+    "prettier": "^3.7.4",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+}

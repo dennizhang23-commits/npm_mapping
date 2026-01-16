@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"allowJs": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"module": "esnext",
+		"moduleResolution": "node",
+		"noEmit": true,
+		"noImplicitAny": false,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"strict": false,
+		"strictNullChecks": false,
+	},
+	"include": ["**/*.*ts", "**/*.tsx", "**/*.*js", "**/*.jsx"],
+	"exclude": ["node_modules", "out"]
+}
