@@ -1,5 +1,5 @@
 {
-  "name": "npm-map-routing",
+  "name": "map-routing",
   "version": "1.0.0",
   "description": "Interactive image route overlay: render points and segments in an SVG layer, convert pointer input to normalized coordinates, and support pan/zoom navigation with video synchronization.",
   "main": "./dist/index.cjs",
@@ -30,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dennizhang23-commits/npm_mapping.git"
+    "url": "git+https://github.com/dennizhang23-commits/map-routing.git"
   },
   "keywords": [
     "route",
@@ -48,9 +48,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dennizhang23-commits/npm_mapping/issues"
+    "url": "https://github.com/dennizhang23-commits/map-routing/issues"
   },
-  "homepage": "https://github.com/dennizhang23-commits/npm_mapping#readme",
+  "homepage": "https://github.com/dennizhang23-commits/map-routing#readme",
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0"

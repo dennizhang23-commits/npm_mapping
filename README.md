@@ -1,4 +1,4 @@
-# npm-map-routing
+# map-routing
 
 Interactive route visualization with pan/zoom and video synchronization for React.
 

@@ -210,7 +210,7 @@ function MapEditor({ imageSrc, points, selectedPointIndex, activeSpot, routeRef,
 			points: points,
 			activeSpot: activeSpot,
 			setActiveSpot: setActiveSpot,
-			style: { width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 },
+			style: { width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, pointerEvents: 'none' },
 			RenderPath: RenderPath,
 			RenderPoint: RenderPoint,
 			RenderExtra: RenderExtra
@@ -507,27 +507,6 @@ function RouteCreator() {
 		}
 	}, [usePresets]);
 
-	// Override activeSpot to use marked time logic
-	const computedActiveSpot = React.useMemo(() => {
-		if (!points?.length || time === 0) return null;
-
-		// Find the last point whose marked time has been reached
-		let lastMarkedIndex = -1;
-		for (let i = 0; i < points.length; i++) {
-			if (points[i].marked !== undefined && time >= points[i].marked) {
-				lastMarkedIndex = i;
-			}
-		}
-
-		if (lastMarkedIndex === -1) return null;
-
-		return {
-			point: points[lastMarkedIndex],
-			pointIndex: lastMarkedIndex,
-			percentage: 0
-		};
-	}, [points, time]);
-
 	const currentMarked = React.useMemo(() => {
 		const tNow = time; // from useRouteVideoSync
 		if (!Array.isArray(points) || typeof tNow !== "number" || !Number.isFinite(tNow)) return 0;
@@ -730,7 +709,7 @@ function RouteCreator() {
 	return h(AppContainer, null,
 		h(Header, null,
 			h(Title, null, 'Route Creator'),
-			h(Subtitle, null, 'Create route data for npm-map-routing by clicking on the map and syncing with video timestamps')
+			h(Subtitle, null, 'Create route data for map-routing by clicking on the map and syncing with video timestamps')
 		),
 
 		h(Section, null,
