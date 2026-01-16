@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "http-server . -p 8080 -o"
+    "install:all": "npm install && cd package && npm install",
+    "build": "cd package && npm run build",
+    "dev": "npm run build && http-server . -p 8080 -o /docs-site/",
+    "start": "http-server . -p 8080 -o /docs-site/"
   },
   "devDependencies": {
     "http-server": "^14.1.1"
